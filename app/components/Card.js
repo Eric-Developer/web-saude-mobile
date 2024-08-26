@@ -40,7 +40,7 @@ export default function Card() {
                 </Text>
             </View>
             
-            <TouchableOpacity style={styles.button} onPress={() => navigation.navigate('/Home')}>
+            <TouchableOpacity style={styles.button} onPress={() => navigation.navigate('VerMais')}>
                 <Text style={styles.buttonText}>Ver Mais</Text>
             </TouchableOpacity>
         </View>

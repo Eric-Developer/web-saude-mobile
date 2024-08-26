@@ -1,8 +1,11 @@
 import React from 'react';
 import { View, TouchableOpacity, StyleSheet } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
+import {useNavigation} from '@react-navigation/native'
 
 const Menu = () => {
+
+  const navigation = useNavigation()
   return (
     <View style={styles.container}>
       <TouchableOpacity style={styles.tabItem}>
@@ -12,7 +15,7 @@ const Menu = () => {
         <Ionicons name="information-circle" size={24} color="gray" />
       </TouchableOpacity>
       <TouchableOpacity style={styles.tabItem}>
-        <Ionicons name="person" size={24} color="gray" />
+        <Ionicons name="person" size={24} color="gray" onPress={() => navigation.navigate('Login-Registrer')} />
       </TouchableOpacity>
     </View>
   );
