@@ -4,7 +4,7 @@ import logo from '../../assets/imgs/foto.jpg';
 
 const { width } = Dimensions.get('window');
 
-const Galeria = () => {
+const Galeria = ({unidade}) => {
   const [modalVisible, setModalVisible] = useState(false);
   const scaleAnim = useRef(new Animated.Value(1)).current;
 

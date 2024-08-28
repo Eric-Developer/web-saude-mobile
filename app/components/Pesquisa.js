@@ -1,10 +1,13 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { View, StyleSheet } from 'react-native';
 import { SearchBar } from 'react-native-elements';
 
-export default function Pesquisa() {
-  const handlePesquisa = (searchText) => {
-    console.log('Pesquisa realizada:', searchText);
+export default function Pesquisa({ onSearch }) {
+  const [searchText, setSearchText] = useState('');
+
+  const handlePesquisa = (text) => {
+    setSearchText(text);
+    onSearch(text);
   };
 
   return (
@@ -12,9 +15,9 @@ export default function Pesquisa() {
       <SearchBar
         style={styles.searchBar}
         placeholder="Digite sua pesquisa"
+        value={searchText}
         onChangeText={handlePesquisa}
-        onClear={() => console.log('Pesquisa cancelada')}
-        onCancel={() => console.log('Pesquisa cancelada')}
+        onClear={() => handlePesquisa('')}
         containerStyle={styles.searchBarContainer}
         inputStyle={styles.inputSearch}
         inputContainerStyle={styles.inputContainerStyle}
@@ -34,7 +37,7 @@ const styles = StyleSheet.create({
     marginTop: 35,
     backgroundColor: '#00285f',
     borderRadius: 10,
-    elevation: 4, 
+    elevation: 4,
     padding: 15,
   },
   inputSearch: {

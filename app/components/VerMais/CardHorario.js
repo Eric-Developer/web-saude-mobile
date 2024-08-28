@@ -3,7 +3,7 @@ import { View, Text, StyleSheet, Animated, TouchableOpacity, Dimensions } from '
 
 const { width } = Dimensions.get('window');
 
-export default function CardHorario() {
+export default function CardHorario({unidade}) {
   const scaleAnim = useRef(new Animated.Value(1)).current;
 
   const startAnimation = () => {
@@ -35,7 +35,8 @@ export default function CardHorario() {
             <View style={styles.divider} />
           </View>
           <View style={styles.content}>
-            <Text style={styles.text}></Text>
+            <Text style={styles.text}>Olá! Estamos disponíveis para atendê-lo 24 horas por dia, 7 dias por semana. Se precisar
+               de assistência ou tiver alguma dúvida, não hesite em nos contatar a qualquer momento. Estamos aqui para ajudar!</Text>
           </View>
         </Animated.View>
       </TouchableOpacity>

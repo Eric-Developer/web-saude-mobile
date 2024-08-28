@@ -1,5 +1,5 @@
 import React from 'react';
-import { View,ScrollView ,StyleSheet} from 'react-native';
+import { View,ScrollView,Text ,StyleSheet,ActivityIndicator } from 'react-native';
 import CardInformativo from '../components/VerMais/CardInformativo';
 import CardSobre from '../components/VerMais/CardSobre';
 import CardEspecialidades from '../components/VerMais/CardEspecialidades';
@@ -8,18 +8,32 @@ import CardContatos from '../components/VerMais/CardContatos';
 import Galeria from '../components/VerMais/Galeria';
 import Comentarios from '../components/VerMais/Comentarios';
 import FormComentario from '../components/VerMais/FormComentario';
+import useUnidadesDeSaude from '../Hooks/useUnidadesDeSaude';
 
-export default function VerMaisPage(){
+export default function VerMaisPage({route}){
+  const { unidade } = route.params;
+  const { unidadesPeloNome, loading, error } = useUnidadesDeSaude(unidade);
+
+  if (loading) {
+    return <ActivityIndicator size="large" color="#0000ff" />;
+}
+if (error) {
+  return (
+      <View style={styles.errorContainer}>
+          <Text style={styles.errorText}>Erro: {error}</Text>
+      </View>
+  );
+}
     return (
       <ScrollView contentContainerStyle={styles.scrollContainer}>
 
         <View>
-          <CardInformativo/>
-          <CardSobre/>
-          <CardEspecialidades/>
-          <CardHorario/>
-          <CardContatos/>
-          <Galeria/>
+          <CardInformativo unidade={unidadesPeloNome}/>
+          <CardSobre unidade={unidadesPeloNome}/>
+          <CardEspecialidades unidade={unidadesPeloNome}/>
+          <CardHorario unidade={unidadesPeloNome}/>
+          <CardContatos unidade={unidadesPeloNome}/>
+          <Galeria unidade={unidadesPeloNome}/>
           <Comentarios/>
           <FormComentario/>
         </View>

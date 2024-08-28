@@ -1,48 +1,70 @@
 import React from 'react';
-import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
-import { MaterialIcons } from '@expo/vector-icons'; 
-import {useNavigation} from '@react-navigation/native'
+import { View, Text, TouchableOpacity, StyleSheet, ActivityIndicator } from 'react-native';
+import { MaterialIcons } from '@expo/vector-icons';
+import { useNavigation } from '@react-navigation/native';
+import useUnidadesDeSaude from '../Hooks/useUnidadesDeSaude';
 
-export default function Card() {
+export default function Card({unidadesdeSaude}) {
+    const { loading, error } = useUnidadesDeSaude();
+    const navigation = useNavigation();
 
     const isEstabelecimentoAberto = () => {
         const horaAtual = new Date().getHours();
-        return horaAtual >= 8 && horaAtual < 18; 
+        return horaAtual >= 8 && horaAtual < 18;
     };
 
-    
-    const nomeUnidadeSaude = "Nome da Unidade de Saúde"
-    
-    const navigation = useNavigation()
+    if (loading) {
+        return <ActivityIndicator size="large" color="#0000ff" />;
+    }
+
+    if (error) {
+        return (
+            <View style={styles.errorContainer}>
+                <Text style={styles.errorText}>Erro: {error}</Text>
+            </View>
+        );
+    }
 
     return (
-        <View style={styles.cardContainer}>
-            <View style={styles.imagePlaceholder} />
-            
-            <View style={styles.nomeUnidadeContainer}>
-                <Text style={styles.nomeUnidade}>{nomeUnidadeSaude}</Text>
-            </View>
+        <View>
+            {unidadesdeSaude.length > 0 ? (
+                unidadesdeSaude.map((unidade) => (
+                    <View style={styles.cardContainer} key={unidade.id}>
+                        <View style={styles.imagePlaceholder} />
+                        
+                        <View style={styles.nomeUnidadeContainer}>
+                            <Text style={styles.nomeUnidade}>{unidade.nome}</Text>
+                        </View>
 
-            <View style={styles.statusContainer}>
-                <MaterialIcons name={isEstabelecimentoAberto() ? "check-circle" : "cancel"} size={24} color={isEstabelecimentoAberto() ? "green" : "red"} style={styles.icon} />
-                <Text style={styles.statusText}>{isEstabelecimentoAberto() ? 'Aberto' : 'Fechado'}</Text>
-            </View>
+                        <View style={styles.statusContainer}>
+                            <MaterialIcons name={isEstabelecimentoAberto() ? "check-circle" : "cancel"} size={24} color={isEstabelecimentoAberto() ? "green" : "red"} style={styles.icon} />
+                            <Text style={styles.statusText}>{isEstabelecimentoAberto() ? 'Aberto' : 'Fechado'}</Text>
+                        </View>
 
-            <View style={styles.addressContainer}>
-                <MaterialIcons name="location-on" size={24} color="black" style={styles.icon} />
-                <Text style={styles.addressText}>1234 Rua Exemplo, Bairro Exemplo, Cidade Exemplo</Text>
-            </View>
+                        <View style={styles.addressContainer}>
+                            <MaterialIcons name="location-on" size={24} color="black" style={styles.icon} />
+                            <Text style={styles.addressText}>
+                                {unidade.endereco.rua}, {unidade.endereco.numero} - {unidade.endereco.bairro}, {unidade.endereco.cidade} - {unidade.endereco.uf}, {unidade.endereco.cep}
+                            </Text>
+                        </View>
 
-            <View style={styles.scheduleContainer}>
-                <MaterialIcons name="access-time" size={24} color="green" style={styles.icon} />
-                <Text style={styles.scheduleText}>
-                    08:00 às 18:00
-                </Text>
-            </View>
-            
-            <TouchableOpacity style={styles.button} onPress={() => navigation.navigate('VerMais')}>
-                <Text style={styles.buttonText}>Ver Mais</Text>
-            </TouchableOpacity>
+                        <View style={styles.scheduleContainer}>
+                            <MaterialIcons name="access-time" size={24} color="green" style={styles.icon} />
+                            <Text style={styles.scheduleText}>
+                                {unidade.horarioAbertura} às {unidade.horarioFechamento}
+                            </Text>
+                        </View>
+                        
+                        <TouchableOpacity style={styles.button} onPress={() => navigation.navigate('VerMais', { unidade: unidade.nome })}>
+                            <Text style={styles.buttonText}>Ver Mais</Text>
+                        </TouchableOpacity>
+                    </View>
+                ))
+            ) : (
+                <View style={styles.noDataContainer}>
+                    <Text style={styles.noDataText}>Nenhuma unidade encontrada</Text>
+                </View>
+            )}
         </View>
     );
 }
@@ -65,7 +87,7 @@ const styles = StyleSheet.create({
     },
     imagePlaceholder: {
         backgroundColor: '#ccc',
-        height: 200, 
+        height: 200,
         marginBottom: 12,
         borderRadius: 8,
     },
@@ -118,5 +140,23 @@ const styles = StyleSheet.create({
     buttonText: {
         color: '#fff',
         fontSize: 16,
+    },
+    errorContainer: {
+        alignItems: 'center',
+        justifyContent: 'center',
+        flex: 1,
+    },
+    errorText: {
+        color: 'red',
+    },
+    noDataContainer: {
+        alignItems: 'center',
+        justifyContent: 'center',
+        flex: 1,
+        marginTop: 20,
+    },
+    noDataText: {
+        fontSize: 18,
+        color: '#888',
     },
 });

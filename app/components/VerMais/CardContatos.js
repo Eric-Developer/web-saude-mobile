@@ -4,7 +4,7 @@ import { MaterialIcons, FontAwesome, FontAwesome5 } from '@expo/vector-icons';
 
 const { width } = Dimensions.get('window');
 
-export default function CardContatos() {
+export default function CardContatos({unidade}) {
   const scaleAnim = useRef(new Animated.Value(1)).current;
 
   const startAnimation = () => {
@@ -38,21 +38,21 @@ export default function CardContatos() {
           <TouchableOpacity onPress={() => {}} activeOpacity={0.7}>
             <View style={styles.row}>
               <MaterialIcons name="email" size={24} color="black" />
-              <Text style={styles.text}>animalao@example.com</Text>
+              <Text style={styles.text}>{unidade.email}</Text>
             </View>
           </TouchableOpacity>
 
           <TouchableOpacity onPress={() => {}} activeOpacity={0.7}>
             <View style={styles.row}>
               <FontAwesome name="instagram" size={24} color="black" />
-              <Text style={styles.text}>@animalao_insta</Text>
+              <Text style={styles.text}>{unidade.instagram}</Text>
             </View>
           </TouchableOpacity>
 
           <TouchableOpacity onPress={() => {}} activeOpacity={0.7}>
             <View style={styles.row}>
               <FontAwesome5 name="whatsapp" size={24} color="black" />
-              <Text style={styles.text}>Animalão Whatsapp</Text>
+              <Text style={styles.text}>{unidade.whatsapp}</Text>
             </View>
           </TouchableOpacity>
         </Animated.View>

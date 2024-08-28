@@ -3,7 +3,7 @@ import { View, Text, StyleSheet, Animated, TouchableOpacity, Dimensions } from '
 
 const { width } = Dimensions.get('window');
 
-export default function CardSobre() {
+export default function CardSobre({unidade}) {
   const scaleAnim = useRef(new Animated.Value(1)).current;
 
   const startAnimation = () => {
@@ -35,7 +35,7 @@ export default function CardSobre() {
             <View style={styles.divider} />
           </View>
           <View style={styles.content}>
-            <Text style={styles.text}></Text>
+            <Text style={styles.text}>{unidade.sobre}</Text>
           </View>
         </Animated.View>
       </TouchableOpacity>

@@ -3,7 +3,7 @@ import { View, Text, StyleSheet, Animated, TouchableOpacity, Dimensions } from '
 
 const { width } = Dimensions.get('window');
 
-export default function CardEspecialidades() {
+export default function CardEspecialidades({ unidade }) {
   const scaleAnim = useRef(new Animated.Value(1)).current;
 
   const startAnimation = () => {
@@ -23,7 +23,7 @@ export default function CardEspecialidades() {
   };
 
   return (
-    <View style={styles.container} id='#CardEspecialidades'>
+    <View style={styles.container} id="#CardEspecialidades">
       <TouchableOpacity
         onPressIn={startAnimation}
         onPressOut={resetAnimation}
@@ -35,7 +35,15 @@ export default function CardEspecialidades() {
             <View style={styles.divider} />
           </View>
           <View style={styles.content}>
-            <Text style={styles.text}></Text>
+            {unidade && unidade.especialidades && unidade.especialidades.length > 0 ? (
+              unidade.especialidades.map((especialidade) => (
+                <Text key={especialidade.id} style={styles.text}>
+                  {especialidade.nome}
+                </Text>
+              ))
+            ) : (
+              <Text style={styles.text}>Nenhuma especialidade disponível</Text>
+            )}
           </View>
         </Animated.View>
       </TouchableOpacity>
@@ -53,7 +61,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#fff',
     borderRadius: 10,
     elevation: 5,
-    marginTop: 40
+    marginTop: 40,
   },
   header: {
     borderBottomWidth: 1,

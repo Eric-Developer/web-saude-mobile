@@ -1,12 +1,15 @@
 import React from 'react';
 import { View, Text, StyleSheet } from 'react-native';
-import Icon from 'react-native-vector-icons/MaterialIcons'; // Certifique-se de ter o react-native-vector-icons instalado
+import Icon from 'react-native-vector-icons/MaterialIcons'; 
 import CardUsuarios from '../components/dashboard/CardUsuarios';
 import ProgressSummary from '../components/dashboard/Progressos';
+
+
 
 export default function Admin() {
   return (
     <View style={styles.container}>
+          
       <ProgressSummary />
       <View style={styles.header}>
         <Icon name="group" size={24} color="#000" style={styles.icon} />

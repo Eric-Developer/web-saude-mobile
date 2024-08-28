@@ -1,5 +1,5 @@
-import React from 'react';
-import { StyleSheet,ScrollView } from 'react-native';
+import React, { useState } from 'react';
+import { StyleSheet, ScrollView } from 'react-native';
 import Header from '../components/Header';
 import Pesquisa from '../components/Pesquisa';
 import Slogan from '../components/Slogan';
@@ -7,22 +7,25 @@ import Filtros from '../components/Filtros';
 import Menu from '../components/Menu';
 import Card from '../components/Card';
 import Paginacao from '../components/Paginacao';
-import useUnidadesDeSaude from '../Hooks/useUnidadesDeSaude';
 
-export default function HomePage() {
-  const { unidades } = useUnidadesDeSaude();
+export default function TelaDeResultados() {
+  const [searchText, setSearchText] = useState('');
+
+  const handleSearch = (text) => {
+    setSearchText(text);
+  };
 
   return (
     <>
       <Header />
       <ScrollView contentContainerStyle={styles.scrollContainer}>
-        <Slogan/>
-        <Pesquisa/>
-        <Filtros/>
-        <Card unidadesdeSaude={unidades}/>
-        <Paginacao/>
+        <Slogan />
+        <Pesquisa onSearch={handleSearch} />
+        <Filtros />
+        <Card searchText={searchText} />
+        <Paginacao />
       </ScrollView>
-      <Menu/>
+      <Menu />
     </>
   );
 }
@@ -30,6 +33,6 @@ export default function HomePage() {
 const styles = StyleSheet.create({
   scrollContainer: {
     flexGrow: 1,
-    paddingBottom: 20, 
+    paddingBottom: 20,
   },
 });
