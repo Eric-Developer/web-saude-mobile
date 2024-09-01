@@ -1,23 +1,31 @@
 import React, { useState } from 'react';
 import { View, StyleSheet } from 'react-native';
 import { SearchBar } from 'react-native-elements';
+import { useNavigation } from '@react-navigation/native';
 
-export default function Pesquisa({ onSearch }) {
+export default function Pesquisa() {
   const [searchText, setSearchText] = useState('');
+  const navigation = useNavigation();
 
   const handlePesquisa = (text) => {
     setSearchText(text);
-    onSearch(text);
+  };
+
+  const handleSearchSubmit = () => {
+    const cleanedSearchText = searchText.trim().replace(/\s+/g, ' ');
+    if (cleanedSearchText) {
+      navigation.navigate('TelaDeResultados', { searchText: cleanedSearchText });
+    }
   };
 
   return (
     <View style={styles.container}>
       <SearchBar
-        style={styles.searchBar}
         placeholder="Digite sua pesquisa"
         value={searchText}
         onChangeText={handlePesquisa}
         onClear={() => handlePesquisa('')}
+        onSubmitEditing={handleSearchSubmit}
         containerStyle={styles.searchBarContainer}
         inputStyle={styles.inputSearch}
         inputContainerStyle={styles.inputContainerStyle}
