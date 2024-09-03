@@ -1,9 +1,11 @@
 import { useState, useEffect } from 'react';
 
-const useUnidadesDeSaude = (nome = '', pesquisa = '') => {
+const useUnidadesDeSaude = (nome = '', pesquisa = '', tipo = '', especialidade = '') => {
     const [unidades, setUnidades] = useState([]);
     const [unidadesPeloNome, setUnidadesPeloNome] = useState([]);
     const [unidadesPelaPesquisa, setUnidadesPelaPesquisa] = useState([]);
+    const [unidadesPeloTipo, setUnidadesPeloTipo] = useState([]);
+    const [unidadesPelaEspecialidade, setUnidadesPelaEspecialidade] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
 
@@ -32,7 +34,7 @@ const useUnidadesDeSaude = (nome = '', pesquisa = '') => {
 
         const fetchUnidadesPeloNome = async () => {
             try {
-                const url = `https://api-web-saude.vercel.app/unidades-de-saude/aprovadas/${nome}`;
+                const url = `https://api-web-saude.vercel.app/aprovadas/${nome}`;
                 const response = await fetch(url);
                 if (!response.ok) {
                     throw new Error('Erro ao buscar os dados');
@@ -71,7 +73,60 @@ const useUnidadesDeSaude = (nome = '', pesquisa = '') => {
         fetchUnidadesPelaPesquisa();
     }, [pesquisa]);
 
-    return { unidades, unidadesPeloNome, unidadesPelaPesquisa, loading, error };
+    useEffect(() => {
+        if (tipo.trim() === '') return;
+
+        const fetchUnidadesPeloTipo = async () => {
+            try {
+                const url = `https://api-web-saude.vercel.app/unidades-de-saude/filtrar/${tipo}`;
+                const response = await fetch(url);
+                if (!response.ok) {
+                    throw new Error('Erro ao buscar os dados');
+                }
+                const data = await response.json();
+                console.log('data',data)
+                setUnidadesPeloTipo(data);
+            } catch (err) {
+                setError(err.message);
+            } finally {
+                setLoading(false);
+            }
+        };
+
+        fetchUnidadesPeloTipo();
+    }, [tipo]);
+
+    useEffect(() => {
+        if (especialidade.trim() === '') return;
+
+        const fetchUnidadesPelaEspecialidade = async () => {
+            try {
+                const url = `https://api-web-saude.vercel.app/unidades-de-saude/especialidade/nome/${especialidade}`;
+                const response = await fetch(url);
+                if (!response.ok) {
+                    throw new Error('Erro ao buscar os dados');
+                }
+                const data = await response.json();
+                setUnidadesPelaEspecialidade(data);
+            } catch (err) {
+                setError(err.message);
+            } finally {
+                setLoading(false);
+            }
+        };
+
+        fetchUnidadesPelaEspecialidade();
+    }, [especialidade]);
+
+    return { 
+        unidades, 
+        unidadesPeloNome, 
+        unidadesPelaPesquisa, 
+        unidadesPeloTipo, 
+        unidadesPelaEspecialidade, 
+        loading, 
+        error 
+    };
 };
 
 export default useUnidadesDeSaude;

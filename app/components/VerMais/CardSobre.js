@@ -35,7 +35,7 @@ export default function CardSobre({unidade}) {
             <View style={styles.divider} />
           </View>
           <View style={styles.content}>
-            <Text style={styles.text}>{unidade.sobre}</Text>
+            <Text style={styles.text}>{unidade.descricao}</Text>
           </View>
         </Animated.View>
       </TouchableOpacity>

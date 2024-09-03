@@ -4,7 +4,7 @@ import { MaterialIcons, FontAwesome, FontAwesome5 } from '@expo/vector-icons';
 
 const { width } = Dimensions.get('window');
 
-export default function CardContatos({unidade}) {
+export default function CardContatos({ unidade }) {
   const scaleAnim = useRef(new Animated.Value(1)).current;
 
   const startAnimation = () => {
@@ -35,24 +35,31 @@ export default function CardContatos({unidade}) {
             <Text style={styles.title}>Contatos</Text>
             <View style={styles.divider} />
           </View>
+
           <TouchableOpacity onPress={() => {}} activeOpacity={0.7}>
             <View style={styles.row}>
               <MaterialIcons name="email" size={24} color="black" />
-              <Text style={styles.text}>{unidade.email}</Text>
+              <Text style={styles.text}>
+                {unidade.email ? unidade.email : 'Sem Email'}
+              </Text>
             </View>
           </TouchableOpacity>
 
           <TouchableOpacity onPress={() => {}} activeOpacity={0.7}>
             <View style={styles.row}>
               <FontAwesome name="instagram" size={24} color="black" />
-              <Text style={styles.text}>{unidade.instagram}</Text>
+              <Text style={styles.text}>
+                {unidade.instagram ? unidade.instagram : 'Sem Instagram'}
+              </Text>
             </View>
           </TouchableOpacity>
 
           <TouchableOpacity onPress={() => {}} activeOpacity={0.7}>
             <View style={styles.row}>
               <FontAwesome5 name="whatsapp" size={24} color="black" />
-              <Text style={styles.text}>{unidade.whatsapp}</Text>
+              <Text style={styles.text}>
+                {unidade.whatsapp ? unidade.whatsapp : 'Sem WhatsApp'}
+              </Text>
             </View>
           </TouchableOpacity>
         </Animated.View>
@@ -71,7 +78,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#fff',
     borderRadius: 10,
     elevation: 5,
-    marginTop: 40
+    marginTop: 40,
   },
   header: {
     borderBottomWidth: 1,

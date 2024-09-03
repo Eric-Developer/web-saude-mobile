@@ -12,8 +12,10 @@ import useUnidadesDeSaude from '../Hooks/useUnidadesDeSaude';
 
 export default function VerMaisPage({route}){
   const { unidade } = route.params;
-  const { unidadesPeloNome, loading, error } = useUnidadesDeSaude(unidade);
+  console.log(unidade)
 
+  const { unidadesPeloNome, loading, error } = useUnidadesDeSaude(unidade,'','');
+ console.log(unidadesPeloNome)
   if (loading) {
     return <ActivityIndicator size="large" color="#0000ff" />;
 }
@@ -33,7 +35,6 @@ if (error) {
           <CardEspecialidades unidade={unidadesPeloNome}/>
           <CardHorario unidade={unidadesPeloNome}/>
           <CardContatos unidade={unidadesPeloNome}/>
-          <Galeria unidade={unidadesPeloNome}/>
           <Comentarios/>
           <FormComentario/>
         </View>

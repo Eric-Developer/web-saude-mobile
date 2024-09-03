@@ -1,5 +1,5 @@
 import React, { useRef } from 'react';
-import { View, Text, TouchableOpacity, StyleSheet, ScrollView } from 'react-native';
+import { View, Text, TouchableOpacity, StyleSheet, ScrollView, Image } from 'react-native';
 import { MaterialIcons } from '@expo/vector-icons'; 
 import { useNavigation } from '@react-navigation/native';
 
@@ -26,8 +26,20 @@ export default function CardInformativo({ unidade }) {
 
   return (
     <View style={styles.cardContainer}>
-      <View style={styles.imagePlaceholder} />
-      
+      <View style={styles.imageContainer}>
+        {unidade.imagem ? (
+          <Image
+            source={{ uri: unidade.imagem }}
+            style={styles.image}
+            alt={unidade.nome}
+          />
+        ) : (
+          <View style={styles.imagePlaceholder}>
+            <Text style={styles.placeholderText}>Imagem não disponível</Text>
+          </View>
+        )}
+      </View>
+
       <View style={styles.nomeUnidadeContainer}>
         <Text style={styles.nomeUnidade}>{unidade.nome || 'Nome não disponível'}</Text>
       </View>
@@ -88,11 +100,26 @@ const styles = StyleSheet.create({
     shadowRadius: 3.84,
     elevation: 5,
   },
-  imagePlaceholder: {
-    backgroundColor: '#ccc',
-    height: 200, 
+  imageContainer: {
     marginBottom: 12,
     borderRadius: 8,
+    overflow: 'hidden',
+    backgroundColor: '#ccc',
+    height: 200, 
+  },
+  image: {
+    width: '100%',
+    height: '100%',
+    resizeMode: 'cover',
+  },
+  imagePlaceholder: {
+    height: '100%',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  placeholderText: {
+    color: '#999',
+    fontSize: 16,
   },
   nomeUnidadeContainer: {
     alignItems: 'center',

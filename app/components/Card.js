@@ -1,10 +1,10 @@
 import React from 'react';
-import { View, Text, TouchableOpacity, StyleSheet, ActivityIndicator } from 'react-native';
+import { View, Text, TouchableOpacity, StyleSheet, ActivityIndicator, Image } from 'react-native';
 import { MaterialIcons } from '@expo/vector-icons';
 import { useNavigation } from '@react-navigation/native';
 import useUnidadesDeSaude from '../Hooks/useUnidadesDeSaude';
 
-export default function Card({unidadesdeSaude}) {
+export default function Card({ unidadesdeSaude }) {
     const { loading, error } = useUnidadesDeSaude();
     const navigation = useNavigation();
 
@@ -30,8 +30,11 @@ export default function Card({unidadesdeSaude}) {
             {unidadesdeSaude.length > 0 ? (
                 unidadesdeSaude.map((unidade) => (
                     <View style={styles.cardContainer} key={unidade.id}>
-                        <View style={styles.imagePlaceholder} />
-                        
+                        <Image
+                            source={{ uri: unidade.imagem }}
+                            style={styles.image}
+                            alt={unidade.nome}
+                        />
                         <View style={styles.nomeUnidadeContainer}>
                             <Text style={styles.nomeUnidade}>{unidade.nome}</Text>
                         </View>
@@ -85,8 +88,8 @@ const styles = StyleSheet.create({
         shadowRadius: 3.84,
         elevation: 5,
     },
-    imagePlaceholder: {
-        backgroundColor: '#ccc',
+    image: {
+        width: '100%',
         height: 200,
         marginBottom: 12,
         borderRadius: 8,

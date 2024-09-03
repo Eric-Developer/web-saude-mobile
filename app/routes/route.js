@@ -8,6 +8,7 @@ import LoginPage from '../screens/Login';
 import LoginOrRegister from '../screens/LoginOrRegister';
 import Admin from '../screens/Admin';
 import TelaDeResultados from '../screens/TelaDeResultaodos';
+import TelaDeResultadosPorFiltros from '../screens/TelaDeResultaodosPorFiltros';
 const Stack = createStackNavigator();
 
 export default function AppRoutes(){
@@ -40,6 +41,7 @@ export default function AppRoutes(){
                 <Stack.Screen name='Login-Registrer' component={LoginOrRegister} />
                 <Stack.Screen name='Admin' component={Admin} />
                 <Stack.Screen name='TelaDeResultados' component={TelaDeResultados} options={{ headerShown: false }} />
+                <Stack.Screen name='TelaDeResultadosPorFiltros' component={TelaDeResultadosPorFiltros} options={{ headerShown: false }} />
 
 
             </Stack.Navigator>
